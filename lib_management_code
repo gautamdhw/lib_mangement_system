@@ -1,0 +1,351 @@
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+
+using namespace std;
+
+class Library
+{
+public:
+    int id;
+    char name[100];
+    char authorname[100];
+    char studentname[100];
+    int price;
+    int pages;
+};
+
+void inputBook(Library lib[], int &count)
+{
+    cout << "Enter BOOK ID:" << endl;
+    cin >> lib[count].id;
+    cin.ignore();
+
+    for (int i = 0; i < count; i++)
+    {
+        if (lib[i].id == lib[count].id)
+        {
+            cout << "Book ID already exists. Please enter a unique ID." << endl;
+            return;
+        }
+    }
+
+    cout << "Enter BOOK NAME:" << endl;
+    cin.getline(lib[count].name, 100);
+
+    cout << "Enter AUTHOR NAME:" << endl;
+    cin.getline(lib[count].authorname, 100);
+
+    cout << "Enter STUDENT NAME:" << endl;
+    cin.getline(lib[count].studentname, 100);
+
+    cout << "Enter BOOK PRICE:" << endl;
+    cin >> lib[count].price;
+    cin.ignore();
+
+    cout << "Enter BOOK PAGES:" << endl;
+    cin >> lib[count].pages;
+    cin.ignore();
+
+    count++;
+}
+
+void displayBooks(Library lib[], int count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        cout << "BOOK ID: " << lib[i].id << endl;
+        cout << "BOOK NAME: " << lib[i].name << endl;
+        cout << "AUTHOR NAME: " << lib[i].authorname << endl;
+        cout << "STUDENT NAME: " << lib[i].studentname << endl;
+        cout << "BOOK PRICE: " << lib[i].price << endl;
+        cout << "BOOK PAGES: " << lib[i].pages << endl;
+        cout << "--------------------------" << endl;
+    }
+}
+
+void searchBook(Library lib[], int count)
+{
+    int id;
+    cout << "Enter BOOK ID to search:" << endl;
+    cin >> id;
+
+    for (int i = 0; i < count; i++)
+    {
+        if (lib[i].id == id)
+        {
+            cout << "BOOK ID: " << lib[i].id << endl;
+            cout << "BOOK NAME: " << lib[i].name << endl;
+            cout << "AUTHOR NAME: " << lib[i].authorname << endl;
+            cout << "STUDENT NAME: " << lib[i].studentname << endl;
+            cout << "BOOK PRICE: " << lib[i].price << endl;
+            cout << "BOOK PAGES: " << lib[i].pages << endl;
+            return;
+        }
+    }
+    cout << "Book not found." << endl;
+}
+
+void updateBook(Library lib[], int count)
+{
+    int id;
+    cout << "Enter BOOK ID to update:" << endl;
+    cin >> id;
+    cin.ignore();
+
+    for (int i = 0; i < count; i++)
+    {
+        if (lib[i].id == id)
+        {
+            cout << "Enter new BOOK NAME (leave empty to keep current):" << endl;
+            char newName[100];
+            cin.getline(newName, 100);
+            if (strlen(newName) > 0) {
+                strcpy(lib[i].name, newName);
+            }
+
+            cout << "Enter new AUTHOR NAME (leave empty to keep current):" << endl;
+            char newAuthor[100];
+            cin.getline(newAuthor, 100);
+            if (strlen(newAuthor) > 0) {
+                strcpy(lib[i].authorname, newAuthor);
+            }
+
+            cout << "Enter new STUDENT NAME (leave empty to keep current):" << endl;
+            char newStudent[100];
+            cin.getline(newStudent, 100);
+            if (strlen(newStudent) > 0) {
+                strcpy(lib[i].studentname, newStudent);
+            }
+
+            cout << "Enter new BOOK PRICE (enter -1 to keep current):" << endl;
+            int newPrice;
+            cin >> newPrice;
+            cin.ignore();
+            if (newPrice != -1) {
+                lib[i].price = newPrice;
+            }
+
+            cout << "Enter new BOOK PAGES (enter -1 to keep current):" << endl;
+            int newPages;
+            cin >> newPages;
+            cin.ignore();
+            if (newPages != -1) {
+                lib[i].pages = newPages;
+            }
+
+            cout << "Book details updated." << endl;
+            return;
+        }
+    }
+    cout << "Book not found." << endl;
+}
+
+void deleteBook(Library lib[], int &count)
+{
+    int id;
+    cout << "Enter BOOK ID to delete:" << endl;
+    cin >> id;
+    cin.ignore();
+
+    for (int i = 0; i < count; i++)
+    {
+        if (lib[i].id == id)
+        {
+            for (int j = i; j < count - 1; j++)
+            {
+                lib[j] = lib[j + 1];
+            }
+            count--;
+            cout << "Book deleted." << endl;
+            return;
+        }
+    }
+    cout << "Book not found." << endl;
+}
+
+void listBooksByAuthor(Library lib[], int count)
+{
+    char author[100];
+    cout << "Enter AUTHOR NAME to list books:" << endl;
+    cin.ignore();
+    cin.getline(author, 100);
+
+    for (int i = 0; i < count; i++)
+    {
+        if (strcmp(lib[i].authorname, author) == 0)
+        {
+            cout << "BOOK ID: " << lib[i].id << endl;
+            cout << "BOOK NAME: " << lib[i].name << endl;
+            cout << "AUTHOR NAME: " << lib[i].authorname << endl;
+            cout << "STUDENT NAME: " << lib[i].studentname << endl;
+            cout << "BOOK PRICE: " << lib[i].price << endl;
+            cout << "BOOK PAGES: " << lib[i].pages << endl;
+            cout << "--------------------------" << endl;
+        }
+    }
+}
+
+void listBooksByStudent(Library lib[], int count)
+{
+    char student[100];
+    cout << "Enter STUDENT NAME to list books:" << endl;
+    cin.ignore();
+    cin.getline(student, 100);
+
+    for (int i = 0; i < count; i++)
+    {
+        if (strcmp(lib[i].studentname, student) == 0)
+        {
+            cout << "BOOK ID: " << lib[i].id << endl;
+            cout << "BOOK NAME: " << lib[i].name << endl;
+            cout << "AUTHOR NAME: " << lib[i].authorname << endl;
+            cout << "STUDENT NAME: " << lib[i].studentname << endl;
+            cout << "BOOK PRICE: " << lib[i].price << endl;
+            cout << "BOOK PAGES: " << lib[i].pages << endl;
+            cout << "--------------------------" << endl;
+        }
+    }
+}
+
+void listUniqueAuthors(Library lib[], int count)
+{
+    cout << "Unique Authors:" << endl;
+    bool found;
+    for (int i = 0; i < count; i++)
+    {
+        found = false;
+        for (int j = 0; j < i; j++)
+        {
+            if (strcmp(lib[i].authorname, lib[j].authorname) == 0)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            cout << lib[i].authorname << endl;
+        }
+    }
+}
+
+void sortBooksByPrice(Library lib[], int count)
+{
+    for (int i = 0; i < count - 1; i++)
+    {
+        for (int j = 0; j < count - i - 1; j++)
+        {
+            if (lib[j].price > lib[j + 1].price)
+            {
+                Library temp = lib[j];
+                lib[j] = lib[j + 1];
+                lib[j + 1] = temp;
+            }
+        }
+    }
+    cout << "Books sorted by price." << endl;
+}
+
+void sortBooksByPages(Library lib[], int count)
+{
+    for (int i = 0; i < count - 1; i++)
+    {
+        for (int j = 0; j < count - i - 1; j++)
+        {
+            if (lib[j].pages > lib[j + 1].pages)
+            {
+                Library temp = lib[j];
+                lib[j] = lib[j + 1];
+                lib[j + 1] = temp;
+            }
+        }
+    }
+    cout << "Books sorted by pages." << endl;
+}
+
+int main()
+{
+    Library lib[20];
+    int input = 0;
+    int count = 0;
+
+    while (input != 10)
+    {
+        cout << "Enter 1 to input details like id, name, author, student, price, pages" << endl;
+        cout << "Enter
+
+ 2 to display details" << endl;
+        cout << "Enter 3 to search for a book by ID" << endl;
+        cout << "Enter 4 to update book details" << endl;
+        cout << "Enter 5 to delete a book" << endl;
+        cout << "Enter 6 to list books by a particular author" << endl;
+        cout << "Enter 7 to list books borrowed by a particular student" << endl;
+        cout << "Enter 8 to list all unique authors" << endl;
+        cout << "Enter 9 to sort books by price or pages" << endl;
+        cout << "Enter 10 to quit" << endl;
+        cin >> input;
+        cin.ignore();
+
+        switch (input)
+        {
+        case 1:
+            inputBook(lib, count);
+            break;
+
+        case 2:
+            displayBooks(lib, count);
+            break;
+
+        case 3:
+            searchBook(lib, count);
+            break;
+
+        case 4:
+            updateBook(lib, count);
+            break;
+
+        case 5:
+            deleteBook(lib, count);
+            break;
+
+        case 6:
+            listBooksByAuthor(lib, count);
+            break;
+
+        case 7:
+            listBooksByStudent(lib, count);
+            break;
+
+        case 8:
+            listUniqueAuthors(lib, count);
+            break;
+
+        case 9:
+            int choice;
+            cout << "Enter 1 to sort by price or 2 to sort by pages" << endl;
+            cin >> choice;
+            if (choice == 1)
+            {
+                sortBooksByPrice(lib, count);
+            }
+            else if (choice == 2)
+            {
+                sortBooksByPages(lib, count);
+            }
+            else
+            {
+                cout << "Invalid choice." << endl;
+            }
+            break;
+
+        case 10:
+            exit(0);
+
+        default:
+            cout << "You have entered the wrong value" << endl;
+        }
+    }
+
+    return 0;
+}
